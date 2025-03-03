@@ -7,13 +7,19 @@ import (
 )
 
 type JWTPayload struct {
-	Username string `json:"username"`
+	Username  string `json:"username"`
+	Role      string `json:"role"`
+	Avatar    string `json:"avatar"`
+	Signature string `json:"signature"`
 	jwt.RegisteredClaims
 }
 
-func GetToken(username string, secretKey string, expiresAt time.Duration) (string, error) {
+func GetToken(username, role, avatar, signature string, secretKey string, expiresAt time.Duration) (string, error) {
 	jwtPayload := JWTPayload{
-		Username: username,
+		Username:  username,
+		Role:      role,
+		Avatar:    avatar,
+		Signature: signature,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(expiresAt)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
